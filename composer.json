@@ -1,0 +1,39 @@
+{
+  "name": "sorokya/php-site-template",
+  "type": "website",
+  "version": "1.0.0",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/",
+      "Tests\\": "tests/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Richard Leek",
+      "email": "richard@richardleek.com"
+    }
+  ],
+  "scripts": {
+    "pint": ["./vendor/bin/pint"],
+    "pint:check": ["./vendor/bin/pint --test"],
+    "phpstan": ["./vendor/bin/phpstan analyse --memory-limit=2G"],
+    "rector": ["./vendor/bin/rector process"],
+    "rector:check": ["./vendor/bin/rector process --dry-run"],
+    "check": ["@pint:check", "@phpstan", "@rector:check"],
+    "fix": ["@rector", "@pint"]
+  },
+  "require": {},
+  "require-dev": {
+    "phpstan/phpstan": "^2.1",
+    "rector/rector": "^2.3",
+    "laravel/pint": "^1.27",
+    "pestphp/pest": "^4.3"
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  }
+}

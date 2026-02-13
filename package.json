@@ -1,0 +1,25 @@
+{
+  "name": "php-site-template",
+  "version": "1.0.0",
+  "description": "A PHP site template with modern build tools",
+  "private": true,
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --watch",
+    "format": "biome check --write ."
+  },
+  "keywords": [],
+  "author": "Richard Leek <richard@richardleek.com>",
+  "license": "MIT",
+  "packageManager": "pnpm@10.28.2",
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.15",
+    "esbuild": "^0.27.3",
+    "lefthook": "^2.1.1"
+  },
+  "dependencies": {
+    "@imacrayon/alpine-ajax": "^0.12.6",
+    "alpinejs": "^3.15.8",
+    "modern-normalize": "^3.0.1"
+  }
+}
