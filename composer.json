@@ -22,9 +22,15 @@
     "rector": ["./vendor/bin/rector process"],
     "rector:check": ["./vendor/bin/rector process --dry-run"],
     "check": ["@pint:check", "@phpstan", "@rector:check"],
-    "fix": ["@rector", "@pint"]
+    "fix": ["@rector", "@pint"],
+    "test": ["./vendor/bin/pest"],
+    "migrate": ["./vendor/bin/phinx migrate"],
+    "migrate:new": ["./vendor/bin/phinx create"]
   },
-  "require": {},
+  "require": {
+    "robmorgan/phinx": "^0.16.10",
+    "vlucas/phpdotenv": "^5.6"
+  },
   "require-dev": {
     "phpstan/phpstan": "^2.1",
     "rector/rector": "^2.3",

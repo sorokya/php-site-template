@@ -2,12 +2,7 @@
 
 declare(strict_types=1);
 
-if (!isset($viewContent) || !is_string($viewContent)) {
-    throw new RuntimeException('View content is not set or is not a string');
-}
-
-$title = isset($viewTitle) && is_string($viewTitle) ? $viewTitle . ' - PHP Site Template' : 'PHP Site Template';
-$description = isset($viewDescription) && is_string($viewDescription) ? $viewDescription : 'A simple PHP site template with routing and layouts.';
+use App\Utils\LayoutHelper;
 
 ?>
 
@@ -17,8 +12,8 @@ $description = isset($viewDescription) && is_string($viewDescription) ? $viewDes
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= htmlspecialchars($title) ?></title>
-    <meta name="description" content="<?= htmlspecialchars($description) ?>">
+    <title><?= LayoutHelper::getTitle() ?></title>
+    <meta name="description" content="<?= LayoutHelper::getDescription() ?>">
     <link rel="stylesheet" href="/css/global.css">
 </head>
 
@@ -31,7 +26,7 @@ $description = isset($viewDescription) && is_string($viewDescription) ? $viewDes
         </nav>
     </header>
     <main>
-        <?= $viewContent ?>
+        <?= LayoutHelper::getContent() ?>
     </main>
     <footer>
         <p>&copy; <?= date('Y') ?> PHP Site Template</p>

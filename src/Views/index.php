@@ -2,19 +2,12 @@
 
 declare(strict_types=1);
 
-if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
-    http_response_code(405);
-    echo 'Method Not Allowed';
-    exit;
-}
+use App\Utils\LayoutHelper;
 
-$viewTitle = 'Home';
-
-ob_start();
+LayoutHelper::assertRequestMethod('GET');
+LayoutHelper::begin('Home', 'Welcome to the home page of our PHP site template.');
 ?>
 
 <h1>Hello from index!</h1>
 
-<?php
-$viewContent = ob_get_clean();
-require __DIR__ . '/Layouts/base.php';
+<?php LayoutHelper::end();
