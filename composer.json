@@ -24,8 +24,9 @@
     "check": ["@pint:check", "@phpstan", "@rector:check"],
     "fix": ["@rector", "@pint"],
     "test": ["./vendor/bin/pest"],
-    "migrate": ["./vendor/bin/phinx migrate"],
-    "migrate:new": ["./vendor/bin/phinx create"]
+    "phinx": [
+      "docker compose exec app php ./vendor/bin/phinx --configuration=phinx.php"
+    ]
   },
   "require": {
     "robmorgan/phinx": "^0.16.10",
