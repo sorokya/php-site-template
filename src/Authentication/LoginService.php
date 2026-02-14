@@ -6,7 +6,7 @@ namespace App\Authentication;
 
 class LoginService
 {
-    public function login(LoginRequest $request): ?Session
+    public static function login(LoginRequest $request): ?Session
     {
         if (!$request->validate()) {
             return null;
@@ -22,5 +22,10 @@ class LoginService
         }
 
         return Session::create($user['id']);
+    }
+
+    public static function logout(Session $session): void
+    {
+        $session->invalidate();
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use App\Utils\LayoutHelper;
 
+$username = $_SESSION['current_user']['username'] ?? '';
+
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +28,14 @@ use App\Utils\LayoutHelper;
     <header>
         <nav>
             <a href="/">Home</a>
-            <a href="/login">Login</a>
+            <?php if ($username): ?>
+                <span>Welcome, <?= htmlspecialchars((string) $username) ?></span>
+                <form method="POST" action="/logout" style="display:inline;">
+                    <button type="submit">Logout</button>
+                </form>
+            <?php else: ?>
+                <a href="/login">Login</a>
+            <?php endif; ?>
         </nav>
     </header>
     <main>
