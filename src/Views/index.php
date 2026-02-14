@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     exit;
 }
 
-$title = 'Home';
+$viewTitle = 'Home';
 
 ob_start();
 ?>
