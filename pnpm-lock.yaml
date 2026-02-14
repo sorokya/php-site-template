@@ -21,6 +21,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.3.15
         version: 2.3.15
+      dotenv:
+        specifier: ^17.3.1
+        version: 17.3.1
       esbuild:
         specifier: ^0.27.3
         version: 0.27.3
@@ -255,6 +258,10 @@ packages:
   alpinejs@3.15.8:
     resolution: {integrity: sha512-zxIfCRTBGvF1CCLIOMQOxAyBuqibxSEwS6Jm1a3HGA9rgrJVcjEWlwLcQTVGAWGS8YhAsTRLVrtQ5a5QT9bSSQ==}
 
+  dotenv@17.3.1:
+    resolution: {integrity: sha512-IO8C/dzEb6O3F9/twg6ZLXz164a2fhTnEWb95H23Dm4OuN+92NmEAlTrupP9VW6Jm3sO26tQlqyvyi4CsnY9GA==}
+    engines: {node: '>=12'}
+
   esbuild@0.27.3:
     resolution: {integrity: sha512-8VwMnyGCONIs6cWue2IdpHxHnAjzxnw2Zr7MkVxB2vjmQ2ivqGFb4LEG3SMnv0Gb2F/G/2yA8zUaiL1gywDCCg==}
     engines: {node: '>=18'}
@@ -444,6 +451,8 @@ snapshots:
   alpinejs@3.15.8:
     dependencies:
       '@vue/reactivity': 3.1.5
+
+  dotenv@17.3.1: {}
 
   esbuild@0.27.3:
     optionalDependencies:
