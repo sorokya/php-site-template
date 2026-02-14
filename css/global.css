@@ -1,5 +1,23 @@
 @import "modern-normalize";
+@import "./nav";
 
 body {
-  margin: 0;
+  height: 100vh;
+  background: url("./img/bg.jpg") repeat;
+}
+
+footer {
+  text-align: center;
+  margin-top: 2rem;
+  border-top: 1px solid #ccc;
+}
+
+header,
+main,
+footer {
+  background: #fff;
+  margin: 0 20rem;
+  padding: 2rem;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
 }

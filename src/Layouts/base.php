@@ -16,25 +16,31 @@ $username = $_SESSION['current_user']['username'] ?? '';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= LayoutHelper::getTitle() ?></title>
     <meta name="description" content="<?= LayoutHelper::getDescription() ?>">
-    <?php if ($_ENV['APP_ENV'] === 'development'): ?>
-        <link rel="stylesheet" href="http://<?= $_ENV['ESBUILD_SERVE_HOST'] ?? 'localhost' ?>:<?= $_ENV['ESBUILD_SERVE_PORT'] ?? 3751 ?>/css/global.css">
-    <?php else: ?>
-        <link rel="stylesheet" href="/css/global.css">
-    <?php endif; ?>
+    <?php foreach (LayoutHelper::getStyleSheets() as $stylesheet): ?>
+        <link rel="stylesheet" href="<?= LayoutHelper::getStyleSheetUrl($stylesheet) ?>">
+    <?php endforeach; ?>
     <link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAACwsLAAAAAAAFlZWQD///8A5ubmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAERERERERERERMxREREERERMzMURERBEREzMxERERERETMzMzMxEREREzMzMzERERERMyIiMREREREDMzMzERERERMyIiMBERERETMzMzEREREREyIiMxERERETMzMzERERERMiIiMREQAAEzMzMxEREAEzMzMxERERERERERERHAHwAAgA8AAAAHAAAABwAAAB8AAIAfAADAHwAAwA8AAOAHAADwBwAA8AMAAPgDAAAAAwAAAAMAAIAHAADADwAA" rel="icon" type="image/x-icon">
 </head>
 
 <body>
     <header>
-        <nav>
-            <a href="/">Home</a>
+        <h1>PHP Site Template</h1>
+        <nav class="nav-primary">
+            <a href="/" <?= LayoutHelper::is_active_route('/') ? 'class="active"' : '' ?>>Home</a>
+            <a href="/posts" <?= LayoutHelper::is_active_route('/posts') ? 'class="active"' : '' ?>>Posts</a>
+            <a href="https://github.com/sorokya/php-site-template" target="_blank" rel="noopener noreferrer">GitHub</a>
             <?php if ($username): ?>
-                <span>Welcome, <?= htmlspecialchars((string) $username) ?></span>
-                <form method="POST" action="/logout" style="display:inline;">
+                <a href="/settings" <?= LayoutHelper::is_active_route('/settings') ? 'class="active"' : '' ?>>Settings</a>
+            <?php endif; ?>
+        </nav>
+        <nav class="nav-secondary">
+            <?php if ($username): ?>
+                <form method="POST" action="/logout">
+                    <span>Welcome, <?= htmlspecialchars((string) $username) ?>! Not you?</span>
                     <button type="submit">Logout</button>
                 </form>
             <?php else: ?>
-                <a href="/login">Login</a>
+                <a href="/login" <?= LayoutHelper::is_active_route('/login') ? 'class="active"' : '' ?>>Login</a>
             <?php endif; ?>
         </nav>
     </header>
@@ -51,7 +57,9 @@ $username = $_SESSION['current_user']['username'] ?? '';
             window.ESBUILD_SERVE_PORT = <?= json_encode($_ENV['ESBUILD_SERVE_PORT'] ?? 3751) ?>;
         <?php endif; ?>
     </script>
-    <script src="/js/global.js"></script>
+    <?php foreach (LayoutHelper::getScripts() as $script): ?>
+        <script src="/js/<?= htmlspecialchars($script) ?>"></script>
+    <?php endforeach; ?>
 </body>
 
 </html>

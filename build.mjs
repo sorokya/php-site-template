@@ -4,13 +4,20 @@ import dotenv from 'dotenv';
 dotenv.config({quiet: true});
 
 const ctx = await esbuild.context({
-  entryPoints: ['css/global.css', 'js/global.js'],
+  entryPoints: ['css/global.css', 'css/login.css', 'js/global.js'],
   bundle: true,
   outdir: 'public',
   entryNames: '[ext]/[name]',
+  assetNames: 'assets/[name]',
   minify: true,
   sourcemap: true,
   target: ['es2020'],
+  loader: {
+    '.png': 'file',
+    '.jpg': 'file',
+    '.jpeg': 'file',
+    '.gif': 'file',
+  },
 });
 
 if (process.argv.includes('--watch')) {

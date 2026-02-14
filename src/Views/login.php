@@ -22,10 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 LayoutHelper::assertRequestMethod('GET', 'POST');
 LayoutHelper::begin('Login', 'This is the login page of our PHP site template.');
+LayoutHelper::addStyleSheet('login.css');
 ?>
 
-<h1>Login</h1>
-<form action="/login" method="POST">
+<form action="/login" method="POST" id="login-form">
     <div>
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>

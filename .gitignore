@@ -8,6 +8,7 @@ public/css/*.css
 public/css/*.css.map
 public/js/*.js
 public/js/*.js.map
+public/assets/*
 
 # MySQL data directory
 /db_data/

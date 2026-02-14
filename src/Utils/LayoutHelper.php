@@ -8,13 +8,15 @@ class LayoutHelper
 {
     /**
      * Layout data storage
-     * @var array{title: string, description: string, layout: string, content: string}
+     * @var array{title: string, description: string, layout: string, content: string, stylesheets: string[], scripts: string[]}
      */
     private static array $__layout_data = [
         'title' => '',
         'description' => '',
         'layout' => 'base',
         'content' => '',
+        'stylesheets' => ['global.css'],
+        'scripts' => ['global.js'],
     ];
 
     public static function assertRequestMethod(string ...$allowedMethods): void
@@ -33,6 +35,49 @@ class LayoutHelper
         self::$__layout_data['layout'] = $layout;
 
         ob_start();
+    }
+
+    public static function addStyleSheet(string $stylesheet): void
+    {
+        self::$__layout_data['stylesheets'][] = $stylesheet;
+    }
+
+    /**
+     * @return string[] List of stylesheets to include in the layout
+     */
+    public static function getStyleSheets(): array
+    {
+        return self::$__layout_data['stylesheets'];
+    }
+
+    public static function addScript(string $script): void
+    {
+        self::$__layout_data['scripts'][] = $script;
+    }
+
+    /**
+     * @return string[] List of scripts to include in the layout
+     */
+    public static function getScripts(): array
+    {
+        return self::$__layout_data['scripts'];
+    }
+
+    /**
+     * Get the URL for a stylesheet, handling development vs production environments.
+     * In development, it will point to the esbuild dev server. In production, it will point to the public directory.
+     * @param string $stylesheet The name of the stylesheet (e.g., "global.css")
+     * @return string The URL to the stylesheet
+     */
+    public static function getStyleSheetUrl(string $stylesheet): string
+    {
+        if ($_ENV['APP_ENV'] === 'development') {
+            $host = $_ENV['ESBUILD_SERVE_HOST'] ?? 'localhost';
+            $port = $_ENV['ESBUILD_SERVE_PORT'] ?? 3751;
+            return sprintf('http://%s:%s/css/%s', $host, $port, $stylesheet);
+        }
+
+        return '/css/' . $stylesheet;
     }
 
     public static function end(): void
@@ -55,5 +100,25 @@ class LayoutHelper
     public static function getContent(): string
     {
         return self::$__layout_data['content'];
+    }
+
+    /**
+     * Check if the given route is active based on the current request URI.
+     * This can be used to add an "active" class to navigation links.
+     * @param string $route The route to check (e.g., "/about")
+     * @return bool True if the current request URI contains the route, false otherwise
+     */
+    public static function is_active_route(string $route): bool
+    {
+        $currentPath = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?? '/';
+        if (!$currentPath) {
+            return false;
+        }
+
+        if ($route === '/') {
+            return $currentPath === '/';
+        }
+
+        return str_contains($currentPath, $route);
     }
 }
