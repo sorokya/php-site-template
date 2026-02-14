@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Phinx\Migration\AbstractMigration;
 
-final class Init extends AbstractMigration
+final class AddSessionTable extends AbstractMigration
 {
     /**
      * Change Method.
@@ -19,19 +19,13 @@ final class Init extends AbstractMigration
      */
     public function change(): void
     {
-        $users = $this->table('users');
-        $users->addColumn('username', 'string', ['limit' => 255])
-            ->addColumn('password_hash', 'string', ['limit' => 255])
+        $this->table('sessions')
+            ->addColumn('user_id', 'integer', ['null' => false, 'signed' => false])
+            ->addColumn('session_token', 'string', ['limit' => 255])
             ->addColumn('created_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP'])
-            ->addColumn('updated_at', 'timestamp')
-            ->create();
-
-        $posts = $this->table('posts');
-        $posts->addColumn('user_id', 'integer', ['null' => false, 'signed' => false])
-            ->addColumn('title', 'string', ['limit' => 255])
-            ->addColumn('content', 'text')
-            ->addColumn('created_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP'])
-            ->addColumn('updated_at', 'timestamp')
+            ->addColumn('expires_at', 'timestamp', ['null' => false])
+            ->addColumn('user_agent', 'text')
+            ->addColumn('ip_address', 'string', ['limit' => 45])
             ->addForeignKey('user_id', 'users', 'id', ['delete' => 'CASCADE', 'update' => 'NO_ACTION'])
             ->create();
     }

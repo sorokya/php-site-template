@@ -9,6 +9,14 @@ use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
+session_start([
+    'name' => 'session_id',
+    'cookie_httponly' => true,
+    'cookie_samesite' => 'Lax',
+    'cookie_secure' => $_SERVER['HTTPS'] ?? false,
+    'cookie_lifetime' => 60 * 60 * 24 * 7, // 7 days
+]);
+
 $url = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 if (!is_string($url)) {
     http_response_code(400);
@@ -57,6 +65,7 @@ foreach ($rii as $file) {
 
 if ($matchedFile) {
     extract($params);
+    load_user();
     include $matchedFile;
 } else {
     http_response_code(404);
@@ -87,4 +96,32 @@ function matchRoute(array $routeSegments, array $urlSegments, array &$params): b
     }
 
     return true;
+}
+
+function load_user(): void
+{
+    if (!isset($_SESSION['session_token'])) {
+        return;
+    }
+
+    $session = \App\Authentication\Session::findByToken($_SESSION['session_token']);
+    if (!$session instanceof \App\Authentication\Session || $session->expired()) {
+        session_destroy();
+        header('Location: /login');
+        exit;
+    }
+
+    $user = \App\Authentication\User::findBySessionToken($session->token);
+    if (!$user instanceof \App\Authentication\User) {
+        session_destroy();
+        header('Location: /login');
+        exit;
+    }
+
+    if (!isset($_SESSION['current_user'])) {
+        $_SESSION['current_user'] = [
+            'id' => $user->id,
+            'username' => $user->username,
+        ];
+    }
 }

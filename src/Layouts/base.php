@@ -26,8 +26,7 @@ use App\Utils\LayoutHelper;
     <header>
         <nav>
             <a href="/">Home</a>
-            <a href="/foo">Foo</a>
-            <a href="/bar">Bar</a>
+            <a href="/login">Login</a>
         </nav>
     </header>
     <main>

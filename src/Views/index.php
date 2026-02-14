@@ -10,4 +10,6 @@ LayoutHelper::begin('Home', 'Welcome to the home page of our PHP site template.'
 
 <h1>Hello from index!</h1>
 
+<?php var_dump($_SESSION) ?>
+
 <?php LayoutHelper::end();
