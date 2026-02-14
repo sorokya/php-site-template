@@ -1,14 +1,20 @@
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/sorokya/php-site-template/tests.yml?style=plastic)](https://github.com/sorokya/php-site-template/actions/workflows/tests.yml)
+
 # PHP Site Template
 
- A minimal PHP site starter with file-based routing, layout support, and a modern asset pipeline.
+ A minimal and opinionated PHP site starter with file-based routing, layout support, and a modern asset pipeline.
 
  ## Features
 
  - File-based routing from `src/Views`
  - Simple layout system with a base layout
  - Asset bundling with esbuild (CSS + JS)
+  - With hot reloading in development
  - Docker dev stack with PHP-FPM, Nginx, and MariaDB
  - Code quality tools: Pint, PHPStan, Rector, Biome
+ - Example blog site with authentication and database integration
+ - Database migrations and seeding with Phinx
+   - Migrations are automatially run on container startup (see `docker/entrypoint.sh`)
 
  ## Requirements
 
@@ -16,6 +22,12 @@
 
  - Docker: Docker Desktop (recommended)
  - Local: PHP, Composer, Node.js, pnpm
+
+ Copy the example environment file:
+
+ ```bash
+ cp .env.example .env
+ ```
 
  ## Quick Start (Docker)
 
@@ -62,24 +74,56 @@
 
  Then open http://localhost:8000
 
+ ## Database Migrations and Seeding
+
+ Migrations are defined in `db/migrations` and seeds are defined in `db/seeds`. The Phinx configuration is in `phinx.php`.
+
+ To create a new migration:
+```bash
+composer phinx create MyNewMigration
+```
+
+To run migrations:
+```bash
+composer phinx migrate
+```
+
+See the [Phinx documentation](https://book.cakephp.org/phinx/0/en/index.html) for more details on defining migrations and seeds.
+
  ## Routing
 
  Routes are derived from files in `src/Views`.
 
  - `src/Views/index.php` -> `/`
- - `src/Views/foo.php` -> `/foo`
+ - `src/Views/login.php` -> `/login`
  - `src/Views/blog.posts.php` -> `/blog/posts`
- - `src/Views/blog.$slug.php` -> `/blog/{slug}`
- - `src/Views/blog.posts.$id.php` -> `/blog/posts/{id}`
+ - `src/Views/blog.posts.$slug.php` -> `/blog/posts/{slug}`
 
  Dynamic segments start with `$` and are passed into the view via extracted variables.
 
  ## Layouts
 
- The base layout lives at `src/Views/Layouts/base.php` and expects `$viewContent`.
- Each view can set `$viewTitle` and `$viewDescription` to customize metadata.
+ An example layout is defined in `src/Layouts/base.php`. Views can use a layout by using the `LayoutHelper::begin` and `LayoutHelper::end` methods:
 
- ## Assets
+ ```php
+ <?php
+
+ declare(strict_types=1);
+
+ use App\Utils\LayoutHelper;
+
+ LayoutHelper::assertRequestMethod('GET');
+ LayoutHelper::begin('Home', 'Welcome to the home page of our PHP site template.');
+ ?>
+
+ <h1>Hello from index!</h1>
+
+ <?php LayoutHelper::end();
+ ```
+
+ The `LayoutHelper::assertRequestMethod` method can be used to restrict routes to specific HTTP methods. In this example, the route will only match GET requests. If a different method is used, a 405 Method Not Allowed response will be returned.
+
+ ## CSS and JS Assets
 
  Source files:
 
@@ -94,35 +138,49 @@
  Commands:
 
  ```bash
+ # Build assets once
  pnpm run build
+
+ # Start watcher with hot reload
  pnpm run dev
- pnpm run format
  ```
 
  ## PHP Tooling
 
  ```bash
- composer run pint
- composer run pint:check
- composer run phpstan
- composer run rector
- composer run rector:check
+ # Run pint, phpstan, and rector to check code quality
  composer run check
+
+ # automatically fix issues with pint and rector
  composer run fix
  ```
 
  ## Tests
 
+ Tests are defined in the `tests/` directory and use pest as the testing framework.
+
+ To run tests:
+
  ```bash
- ./vendor/bin/pest
+ composer test
  ```
 
  ## Project Structure
 
  - `public/` web root and front controller
- - `src/Views/` route-mapped templates
+ - `src/Views/` route-mapped controllers/views
+ - `src/Layouts/` reusable layout templates
+ - `src/Utils/` helper classes (e.g. LayoutHelper)
+ - `src/Authentication/` authentication logic, user, and session management
+ - `src/Data/PDO.php` simple PDO wrapper for database interactions
  - `css/` and `js/` asset sources
- - `docker/` container configs
+ - `docker/` container configs, scripts, and Dockerfile
+ - `db/{migrations,seeds}/` database migrations and seeds
+ - `tests/` php pest tests
+ - `phinx.php` database migration config
+ - `docker-compose.yml` Docker Compose config for local development
+ - `.env.example` example environment variables
+ - `build.mjs` esbuild config for asset bundling
 
  ## License
 
