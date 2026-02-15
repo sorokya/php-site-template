@@ -2,16 +2,21 @@
 
 declare(strict_types=1);
 
+use App\Authentication\LoginAction;
+use App\Authentication\LoginRequest;
+use App\Data\PDO;
+use App\Models\Session;
 use App\Utils\LayoutHelper;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $request = new \App\Authentication\LoginRequest(
+    $request = new LoginRequest(
         $_POST['username'] ?? '',
         $_POST['password'] ?? '',
     );
 
-    $session = \App\Authentication\LoginService::login($request);
-    if ($session instanceof \App\Authentication\Session) {
+    $loginAction = new LoginAction(new PDO());
+    $session = $loginAction->execute($request);
+    if ($session instanceof Session) {
         $_SESSION['session_token'] = $session->token;
         header('Location: /');
         exit;

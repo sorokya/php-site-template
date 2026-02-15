@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use App\Utils\LayoutHelper;
+use App\Utils\SessionHelper;
 
-$username = $_SESSION['current_user']['username'] ?? '';
-
+$user = SessionHelper::getUser();
 ?>
 
 <!DOCTYPE html>
@@ -29,14 +29,14 @@ $username = $_SESSION['current_user']['username'] ?? '';
             <a href="/" <?= LayoutHelper::is_active_route('/') ? 'class="active"' : '' ?>>Home</a>
             <a href="/posts" <?= LayoutHelper::is_active_route('/posts') ? 'class="active"' : '' ?>>Posts</a>
             <a href="https://github.com/sorokya/php-site-template" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <?php if ($username): ?>
+            <?php if ($user instanceof \App\Utils\SessionUser): ?>
                 <a href="/settings" <?= LayoutHelper::is_active_route('/settings') ? 'class="active"' : '' ?>>Settings</a>
             <?php endif; ?>
         </nav>
         <nav class="nav-secondary">
-            <?php if ($username): ?>
+            <?php if ($user instanceof \App\Utils\SessionUser): ?>
                 <form method="POST" action="/logout">
-                    <span>Welcome, <?= htmlspecialchars((string) $username) ?>! Not you?</span>
+                    <span>Welcome, <?= htmlspecialchars($user->username) ?>! Not you?</span>
                     <button type="submit">Logout</button>
                 </form>
             <?php else: ?>

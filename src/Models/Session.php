@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Authentication;
+namespace App\Models;
 
+use App\Data\PDO;
 use DateTime;
 
 class Session
@@ -25,14 +26,13 @@ class Session
         return $this->expiresAt < new DateTime();
     }
 
-    public function invalidate(): void
+    public function invalidate(PDO $pdo): void
     {
-        $pdo = new \App\Data\PDO();
         $stmt = $pdo->prepare('UPDATE sessions SET expires_at = NOW() WHERE session_token = :session_token');
         $stmt->execute(['session_token' => $this->token]);
     }
 
-    public static function create(int $userId): self
+    public static function create(PDO $pdo, int $userId): self
     {
         $session = new self();
         $session->userId = $userId;
@@ -42,7 +42,6 @@ class Session
         $session->userAgent = $_SERVER['HTTP_USER_AGENT'] ?? null;
         $session->ipAddress = self::getUserIpAddress();
 
-        $pdo = new \App\Data\PDO();
         $stmt = $pdo->prepare('INSERT INTO sessions (user_id, session_token, created_at, expires_at, user_agent, ip_address) VALUES (:user_id, :session_token, :created_at, :expires_at, :user_agent, :ip_address)');
         $stmt->execute([
             'user_id' => $session->userId,
@@ -56,9 +55,8 @@ class Session
         return $session;
     }
 
-    public static function findByToken(string $token): ?self
+    public static function findByToken(PDO $pdo, string $token): ?self
     {
-        $pdo = new \App\Data\PDO();
         $stmt = $pdo->prepare('SELECT * FROM sessions WHERE session_token = :session_token AND expires_at > NOW()');
         $stmt->execute(['session_token' => $token]);
 

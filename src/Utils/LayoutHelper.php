@@ -22,8 +22,7 @@ class LayoutHelper
     public static function assertRequestMethod(string ...$allowedMethods): void
     {
         if (!in_array($_SERVER['REQUEST_METHOD'] ?? '', $allowedMethods, true)) {
-            http_response_code(405);
-            echo 'Method Not Allowed';
+            ResponseHelper::error('Method Not Allowed', 405);
             exit;
         }
     }

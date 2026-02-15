@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Authentication;
+namespace App\Models;
 
+use App\Data\PDO;
 use DateTime;
 
 class User
@@ -16,9 +17,8 @@ class User
 
     public ?DateTime $updatedAt = null;
 
-    public static function findBySessionToken(string $token): ?self
+    public static function findBySessionToken(PDO $pdo, string $token): ?self
     {
-        $pdo = new \App\Data\PDO();
         $stmt = $pdo->prepare('SELECT u.id, u.username, u.created_at, u.updated_at FROM users u JOIN sessions s ON u.id = s.user_id WHERE s.session_token = :session_token AND s.expires_at > NOW()');
         $stmt->execute(['session_token' => $token]);
 

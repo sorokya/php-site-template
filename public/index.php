@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use App\Data\PDO;
+use App\Utils\ResponseHelper;
 use Dotenv\Dotenv;
 
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
@@ -19,8 +21,7 @@ session_start([
 
 $url = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 if (!is_string($url)) {
-    http_response_code(400);
-    echo 'Bad Request';
+    ResponseHelper::error('Bad Request');
     exit;
 }
 
@@ -68,8 +69,7 @@ if ($matchedFile) {
     load_user();
     include $matchedFile;
 } else {
-    http_response_code(404);
-    echo 'Not Found';
+    ResponseHelper::error('Not Found', 404);
 }
 
 /**
@@ -104,15 +104,16 @@ function load_user(): void
         return;
     }
 
-    $session = \App\Authentication\Session::findByToken($_SESSION['session_token']);
-    if (!$session instanceof \App\Authentication\Session || $session->expired()) {
+    $pdo = new PDO();
+    $session = \App\Models\Session::findByToken($pdo, $_SESSION['session_token']);
+    if (!$session instanceof \App\Models\Session || $session->expired()) {
         session_destroy();
         header('Location: /login');
         exit;
     }
 
-    $user = \App\Authentication\User::findBySessionToken($session->token);
-    if (!$user instanceof \App\Authentication\User) {
+    $user = \App\Models\User::findBySessionToken($pdo, $session->token);
+    if (!$user instanceof \App\Models\User) {
         session_destroy();
         header('Location: /login');
         exit;

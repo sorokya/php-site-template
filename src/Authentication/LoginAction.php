@@ -4,16 +4,22 @@ declare(strict_types=1);
 
 namespace App\Authentication;
 
-class LoginService
+use App\Data\PDO;
+use App\Models\Session;
+
+class LoginAction
 {
-    public static function login(LoginRequest $request): ?Session
+    public function __construct(private readonly PDO $pdo)
+    {
+    }
+
+    public function execute(LoginRequest $request): ?Session
     {
         if (!$request->validate()) {
             return null;
         }
 
-        $pdo = new \App\Data\PDO();
-        $stmt = $pdo->prepare('SELECT * FROM users WHERE username = :username');
+        $stmt = $this->pdo->prepare('SELECT * FROM users WHERE username = :username');
         $stmt->execute(['username' => $request->username]);
 
         $user = $stmt->fetch();
@@ -21,11 +27,6 @@ class LoginService
             return null;
         }
 
-        return Session::create($user['id']);
-    }
-
-    public static function logout(Session $session): void
-    {
-        $session->invalidate();
+        return Session::create($this->pdo, $user['id']);
     }
 }
