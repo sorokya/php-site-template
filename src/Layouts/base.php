@@ -73,14 +73,18 @@ $flashError = SessionHelper::getFlashError();
     </header>
     <main>
         <?php if ($flashSuccess): ?>
-            <div class="flash-message flash-success">
+            <div class="flash-message flash-success" x-sync id="flash-success">
                 <?= htmlspecialchars($flashSuccess) ?>
             </div>
+        <?php else: ?>
+            <div x-sync id="flash-success" style="display: none;"></div>
         <?php endif; ?>
         <?php if ($flashError): ?>
-            <div class="flash-message flash-error">
+            <div class="flash-message flash-error" x-sync id="flash-error">
                 <?= htmlspecialchars($flashError) ?>
             </div>
+        <?php else: ?>
+            <div x-sync id="flash-error" style="display: none;"></div>
         <?php endif; ?>
         <?= LayoutHelper::getContent() ?>
     </main>

@@ -26,10 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($action->execute()) {
         SessionHelper::flashSuccess('Password changed successfully.');
-        ResponseHelper::redirect('/');
+    } else {
+        SessionHelper::flashError($action->error ?? 'Failed to change password.');
     }
-
-    SessionHelper::flashError($action->error ?? 'Failed to change password.');
 }
 
 LayoutHelper::begin('Settings', 'Manage your account settings.');
@@ -37,7 +36,7 @@ LayoutHelper::addStyleSheet('login.css');
 ?>
 
 
-<form action="/settings" method="POST" id="login-form">
+<form action="/settings" method="POST" id="login-form" x-target="login-form">
     <h2>Change Password</h2>
     <div>
         <label for="password">New Password:</label>

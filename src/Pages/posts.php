@@ -53,10 +53,10 @@ $result = $getPostsAction->execute();
                         </div>
                         <?php if ($user instanceof \App\Utils\SessionUser): ?>
                             <div class="post-actions">
-                                <form action="/posts/<?= $post->id ?>/edit" method="GET" style="display: inline;">
+                                <form action="/posts/<?= $post->id ?>/edit" method="GET">
                                     <button type="submit">Edit</button>
                                 </form>
-                                <form action="/posts/<?= $post->id ?>/delete" method="POST" style="display: inline;">
+                                <form action="/posts/<?= $post->id ?>/delete" method="POST" x-target="posts-list">
                                     <button type="submit">Delete</button>
                                 </form>
                             </div>
@@ -67,7 +67,7 @@ $result = $getPostsAction->execute();
         <?php endif; ?>
     </div>
     <?php if ($user instanceof \App\Utils\SessionUser): ?>
-        <form action="/posts" method="POST" class="post-form">
+        <form action="/posts" method="POST" class="post-form" x-target="posts-list new-post-form" id="new-post-form">
             <h2>New Post</h2>
             <div>
                 <label for="title">Title:</label>

@@ -22,8 +22,8 @@ class CreatePostRequest
             return 'Invalid user ID.';
         }
 
-        if (strlen($this->title) < 3) {
-            return 'Title must be at least 3 characters long.';
+        if (strlen($this->title) < 3 || strlen($this->title) > 255) {
+            return 'Title must be between 3 and 255 characters long.';
         }
 
         if (strlen($this->content) < 10) {
