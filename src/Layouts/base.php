@@ -26,7 +26,9 @@ $flashError = SessionHelper::getFlashError();
 
 <body>
     <header>
-        <h1>PHP Site Template</h1>
+        <h1>
+            <a href="/">PHP Site Template</a>
+        </h1>
         <nav class="nav-primary">
             <a href="/" <?= LayoutHelper::is_active_route('/') ? 'class="active"' : '' ?>>Home</a>
             <a href="/posts" <?= LayoutHelper::is_active_route('/posts') ? 'class="active"' : '' ?>>Posts</a>
