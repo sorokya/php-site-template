@@ -119,4 +119,10 @@ class LayoutHelper
 
         return str_contains($currentPath, $route);
     }
+
+    public static function getTheme(): string
+    {
+        $cookie = $_COOKIE['theme'] ?? 'light';
+        return in_array($cookie, ['light', 'dark'], true) ? $cookie : 'light';
+    }
 }

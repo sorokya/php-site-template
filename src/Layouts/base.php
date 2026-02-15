@@ -11,7 +11,7 @@ $flashError = SessionHelper::getFlashError();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="<?= LayoutHelper::getTheme() ?>">
 
 <head>
     <meta charset="UTF-8">
@@ -44,6 +44,29 @@ $flashError = SessionHelper::getFlashError();
             <?php else: ?>
                 <a href="/login" <?= LayoutHelper::is_active_route('/login') ? 'class="active"' : '' ?>>Login</a>
             <?php endif; ?>
+            <form method="POST" action="/toggle-theme">
+                <button type="submit">
+                    <?php if (LayoutHelper::getTheme() === 'light'): ?>
+                        <svg width="16" height="16" viewBox="0 0 64 64" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="32" cy="32" r="12" fill="#FDB813" />
+                            <g stroke="#FDB813" stroke-width="4" stroke-linecap="round">
+                                <line x1="32" y1="4" x2="32" y2="14" />
+                                <line x1="32" y1="50" x2="32" y2="60" />
+                                <line x1="4" y1="32" x2="14" y2="32" />
+                                <line x1="50" y1="32" x2="60" y2="32" />
+                                <line x1="12" y1="12" x2="19" y2="19" />
+                                <line x1="45" y1="45" x2="52" y2="52" />
+                                <line x1="12" y1="52" x2="19" y2="45" />
+                                <line x1="45" y1="19" x2="52" y2="12" />
+                            </g>
+                        </svg>
+                    <?php else: ?>
+                        <svg width="16" height="16" viewBox="0 0 64 64" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M44 48c-10.493 0-19-8.507-19-19 0-7.19 4.01-13.44 9.92-16.6C22.38 13.33 12 24.2 12 37.5 12 50.48 22.52 61 35.5 61c9.56 0 17.79-5.77 21.39-14.03A18.92 18.92 0 0 1 44 48Z" fill="#B0BEC5" />
+                        </svg>
+                    <?php endif; ?>
+                </button>
+            </form>
         </nav>
     </header>
     <main>

@@ -27,4 +27,13 @@ class ResponseHelper
         header('Location: ' . $url);
         exit();
     }
+
+    /**
+     * Redirects back to the referring page or to the homepage if no referrer is available.
+     */
+    public static function back(): never
+    {
+        $referer = $_SERVER['HTTP_REFERER'] ?? '/';
+        self::redirect($referer);
+    }
 }

@@ -1,7 +1,7 @@
 .post-form {
   min-width: 300px;
   padding: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 5px;
 }
 
@@ -21,14 +21,14 @@
 .post-form input {
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 5px;
 }
 
 .post-form textarea {
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 5px;
   resize: vertical;
   min-height: 100px;
@@ -36,7 +36,7 @@
 
 .post-actions button {
   background: none;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   color: inherit;
   border-radius: 5px;
   cursor: pointer;
@@ -47,7 +47,7 @@
   width: 100%;
   padding: 0.75rem;
   background: none;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   color: inherit;
   border-radius: 5px;
   cursor: pointer;
@@ -71,7 +71,7 @@
 }
 
 #posts-list li {
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 5px;
   padding: 1rem;
   margin-bottom: 1rem;
