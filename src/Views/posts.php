@@ -46,6 +46,11 @@ $result = $getPostsAction->execute();
             <ul id="posts-list">
                 <?php foreach ($result->posts as $post): ?>
                     <li>
+                        <div class="post-content">
+                            <h3><?= htmlspecialchars($post->title) ?></h3>
+                            <p><?= nl2br(htmlspecialchars($post->content)) ?></p>
+                            <small>Posted on <?= $post->createdAt->format('Y-m-d H:i') ?></small>
+                        </div>
                         <?php if ($user instanceof \App\Utils\SessionUser): ?>
                             <div class="post-actions">
                                 <form action="/posts/<?= $post->id ?>/edit" method="GET" style="display: inline;">
@@ -56,9 +61,6 @@ $result = $getPostsAction->execute();
                                 </form>
                             </div>
                         <?php endif; ?>
-                        <h3><?= htmlspecialchars($post->title) ?></h3>
-                        <p><?= nl2br(htmlspecialchars($post->content)) ?></p>
-                        <small>Posted on <?= $post->createdAt->format('Y-m-d H:i') ?></small>
                     </li>
                 <?php endforeach; ?>
             </ul>

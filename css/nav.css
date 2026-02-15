@@ -23,15 +23,6 @@ header nav a.active {
   border-bottom: 1px solid currentColor;
 }
 
-header nav button {
-  background: none;
-  border: 1px solid var(--border-color);
-  color: inherit;
-  cursor: pointer;
-  padding: 0.25rem 0.5rem;
-  border-radius: 5px;
-}
-
 header nav form {
   display: inline-flex;
   align-items: center;
