@@ -45,7 +45,7 @@ $flashError = SessionHelper::getFlashError();
                 <a href="/login" <?= LayoutHelper::is_active_route('/login') ? 'class="active"' : '' ?>>Login</a>
             <?php endif; ?>
             <form method="POST" action="/toggle-theme">
-                <button type="submit">
+                <button type="submit" aria-label="Toggle Theme">
                     <?php if (LayoutHelper::getTheme() === 'light'): ?>
                         <svg width="16" height="16" viewBox="0 0 64 64" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="32" cy="32" r="12" fill="#FDB813" />
