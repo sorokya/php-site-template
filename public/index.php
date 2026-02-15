@@ -26,12 +26,12 @@ if (!is_string($url)) {
 
 $urlSegments = array_values(array_filter(explode('/', $url)));
 
-$viewsDir = __DIR__ . '/../src/Views';
+$pagesDir = __DIR__ . '/../src/Pages';
 
 $matchedFile = null;
 $params = [];
 
-$rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($viewsDir));
+$rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($pagesDir));
 
 foreach ($rii as $file) {
     if (!$file instanceof SplFileInfo) {
@@ -46,7 +46,7 @@ foreach ($rii as $file) {
         continue;
     }
 
-    $relativePath = ltrim(str_replace([$viewsDir, '.php'], '', $file->getPathname()), '/');
+    $relativePath = ltrim(str_replace([$pagesDir, '.php'], '', $file->getPathname()), '/');
     $routeSegments = explode('.', $relativePath);
 
     // normalize "index" at root to empty segment

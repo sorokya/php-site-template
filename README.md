@@ -6,7 +6,7 @@
 
  ## Features
 
- - File-based routing from `src/Views`
+ - File-based routing from `src/Pages`
  - Simple layout system with a base layout
  - Asset bundling with esbuild (CSS + JS)
   - With hot reloading in development
@@ -92,18 +92,18 @@ See the [Phinx documentation](https://book.cakephp.org/phinx/0/en/index.html) fo
 
  ## Routing
 
- Routes are derived from files in `src/Views`.
+ Routes are derived from files in `src/Pages`.
 
- - `src/Views/index.php` -> `/`
- - `src/Views/login.php` -> `/login`
- - `src/Views/blog.posts.php` -> `/blog/posts`
- - `src/Views/blog.posts.$slug.php` -> `/blog/posts/{slug}`
+ - `src/Pages/index.php` -> `/`
+ - `src/Pages/login.php` -> `/login`
+ - `src/Pages/blog.posts.php` -> `/blog/posts`
+ - `src/Pages/blog.posts.$slug.php` -> `/blog/posts/{slug}`
 
  Dynamic segments start with `$` and are passed into the view via extracted variables.
 
  ## Layouts
 
- An example layout is defined in `src/Layouts/base.php`. Views can use a layout by using the `LayoutHelper::begin` and `LayoutHelper::end` methods:
+ An example layout is defined in `src/Layouts/base.php`. Pages can use a layout by using the `LayoutHelper::begin` and `LayoutHelper::end` methods:
 
  ```php
  <?php
@@ -168,7 +168,7 @@ See the [Phinx documentation](https://book.cakephp.org/phinx/0/en/index.html) fo
  ## Project Structure
 
  - `public/` web root and front controller
- - `src/Views/` route-mapped controllers/views
+ - `src/Pages/` route-mapped controllers/pages
  - `src/Layouts/` reusable layout templates
  - `src/Utils/` helper classes (e.g. LayoutHelper)
  - `src/Authentication/` authentication logic, user, and session management
