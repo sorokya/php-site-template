@@ -7,6 +7,7 @@ use App\Authentication\LoginRequest;
 use App\Data\PDO;
 use App\Models\Session;
 use App\Utils\LayoutHelper;
+use App\Utils\ResponseHelper;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $request = new LoginRequest(
@@ -18,8 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $session = $loginAction->execute($request);
     if ($session instanceof Session) {
         $_SESSION['session_token'] = $session->token;
-        header('Location: /');
-        exit;
+        ResponseHelper::redirect('/');
     }
 
     $error = 'Invalid username or password.';

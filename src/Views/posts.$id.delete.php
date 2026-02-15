@@ -13,18 +13,15 @@ LayoutHelper::assertRequestMethod('POST');
 $user = SessionHelper::getUser();
 if (!$user instanceof \App\Utils\SessionUser) {
     ResponseHelper::error('Unauthorized', 403);
-    exit;
 }
 
 if (!isset($id) || !is_numeric($id)) {
     ResponseHelper::error('Invalid post ID', 400);
-    exit;
 }
 
 $deleteAction = new DeletePostAction(new PDO(), (int) $id);
 if ($deleteAction->execute()) {
-    header('Location: /posts');
-    exit;
+    ResponseHelper::redirect('/posts');
 }
 
 ResponseHelper::error('Post not found', 404);

@@ -22,7 +22,6 @@ session_start([
 $url = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
 if (!is_string($url)) {
     ResponseHelper::error('Bad Request');
-    exit;
 }
 
 $urlSegments = array_values(array_filter(explode('/', $url)));
@@ -108,15 +107,13 @@ function load_user(): void
     $session = \App\Models\Session::findByToken($pdo, $_SESSION['session_token']);
     if (!$session instanceof \App\Models\Session || $session->expired()) {
         session_destroy();
-        header('Location: /login');
-        exit;
+        ResponseHelper::redirect('/login');
     }
 
     $user = \App\Models\User::findBySessionToken($pdo, $session->token);
     if (!$user instanceof \App\Models\User) {
         session_destroy();
-        header('Location: /login');
-        exit;
+        ResponseHelper::redirect('/login');
     }
 
     if (!isset($_SESSION['current_user'])) {

@@ -15,12 +15,10 @@ LayoutHelper::assertRequestMethod('GET', 'POST');
 $user = SessionHelper::getUser();
 if (!$user instanceof \App\Utils\SessionUser) {
     ResponseHelper::error('Unauthorized', 403);
-    exit;
 }
 
 if (!isset($id) || !is_numeric($id)) {
     ResponseHelper::error('Invalid post ID', 400);
-    exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -32,17 +30,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     if ($editAction->execute($editRequest)) {
-        header('Location: /posts');
-        exit;
+        ResponseHelper::redirect('/posts');
     }
+
     ResponseHelper::error($editAction->error ?? 'Failed to update post', 400);
-    exit;
 }
 
 $post = Post::findById(new PDO(), (int) $id);
 if (!$post instanceof \App\Models\Post) {
     ResponseHelper::error('Post not found', 404);
-    exit;
 }
 
 LayoutHelper::begin('Edit Post', 'Edit your post here.');

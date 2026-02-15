@@ -23,7 +23,6 @@ class LayoutHelper
     {
         if (!in_array($_SERVER['REQUEST_METHOD'] ?? '', $allowedMethods, true)) {
             ResponseHelper::error('Method Not Allowed', 405);
-            exit;
         }
     }
 
