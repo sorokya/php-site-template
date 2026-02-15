@@ -49,7 +49,7 @@ $result = $getPostsAction->execute();
                         <div class="post-content">
                             <h3><?= htmlspecialchars($post->title) ?></h3>
                             <p><?= nl2br(htmlspecialchars($post->content)) ?></p>
-                            <small>Posted on <?= $post->createdAt->format('Y-m-d H:i') ?></small>
+                            <small>Posted on <?= $post->createdAt->format('M d, Y h:i A') ?></small>
                         </div>
                         <?php if ($user instanceof \App\Utils\SessionUser): ?>
                             <div class="post-actions">
