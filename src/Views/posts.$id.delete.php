@@ -21,7 +21,9 @@ if (!isset($id) || !is_numeric($id)) {
 
 $deleteAction = new DeletePostAction(new PDO(), (int) $id);
 if ($deleteAction->execute()) {
-    ResponseHelper::redirect('/posts');
+    SessionHelper::flashSuccess('Post deleted successfully.');
+} else {
+    SessionHelper::flashError('Failed to delete post.');
 }
 
-ResponseHelper::error('Post not found', 404);
+ResponseHelper::redirect('/posts');

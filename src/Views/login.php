@@ -8,6 +8,7 @@ use App\Data\PDO;
 use App\Models\Session;
 use App\Utils\LayoutHelper;
 use App\Utils\ResponseHelper;
+use App\Utils\SessionHelper;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $request = new LoginRequest(
@@ -22,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ResponseHelper::redirect('/');
     }
 
-    $error = 'Invalid username or password.';
+    SessionHelper::flashError('Invalid username or password.');
 }
 
 LayoutHelper::assertRequestMethod('GET', 'POST');
@@ -39,9 +40,6 @@ LayoutHelper::addStyleSheet('login.css');
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required>
     </div>
-    <?php if (isset($error)): ?>
-        <p style="color: red;"><?= htmlspecialchars($error) ?></p>
-    <?php endif; ?>
     <button type="submit">Login</button>
 </form>
 

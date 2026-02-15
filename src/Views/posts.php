@@ -27,7 +27,9 @@ if ($user instanceof \App\Utils\SessionUser && $_SERVER['REQUEST_METHOD'] === 'P
     $createPostAction = new CreatePostAction($pdo);
     $post = $createPostAction->execute($request);
     if (!$post instanceof \App\Models\Post) {
-        $error = $createPostAction->error ?? 'Failed to create post.';
+        SessionHelper::flashError($createPostAction->error ?? 'Failed to create post.');
+    } else {
+        SessionHelper::flashSuccess('Post created successfully.');
     }
 }
 
@@ -73,9 +75,6 @@ $result = $getPostsAction->execute();
                 <label for="content">Content:</label>
                 <textarea id="content" name="content" required></textarea>
             </div>
-            <?php if (isset($error)): ?>
-                <p style="color: red;"><?= htmlspecialchars($error) ?></p>
-            <?php endif; ?>
             <button type="submit">Create Post</button>
         </form>
     <?php endif; ?>

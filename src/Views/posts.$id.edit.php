@@ -30,10 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     if ($editAction->execute($editRequest)) {
+        SessionHelper::flashSuccess('Post updated successfully.');
         ResponseHelper::redirect('/posts');
     }
 
-    ResponseHelper::error($editAction->error ?? 'Failed to update post', 400);
+    SessionHelper::flashError($editAction->error ?? 'Failed to update post');
 }
 
 $post = Post::findById(new PDO(), (int) $id);

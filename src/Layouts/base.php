@@ -6,6 +6,8 @@ use App\Utils\LayoutHelper;
 use App\Utils\SessionHelper;
 
 $user = SessionHelper::getUser();
+$flashSuccess = SessionHelper::getFlashSuccess();
+$flashError = SessionHelper::getFlashError();
 ?>
 
 <!DOCTYPE html>
@@ -45,6 +47,16 @@ $user = SessionHelper::getUser();
         </nav>
     </header>
     <main>
+        <?php if ($flashSuccess): ?>
+            <div class="flash-message flash-success">
+                <?= htmlspecialchars($flashSuccess) ?>
+            </div>
+        <?php endif; ?>
+        <?php if ($flashError): ?>
+            <div class="flash-message flash-error">
+                <?= htmlspecialchars($flashError) ?>
+            </div>
+        <?php endif; ?>
         <?= LayoutHelper::getContent() ?>
     </main>
     <footer>
